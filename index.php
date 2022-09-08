@@ -9,7 +9,8 @@ $art = new artikel($db->getConnection());
 
 
 /// VERWERK 
-$data = $art->selecteerArtikel(8);
+// Selecteer een artikel dat word weergegeven op de site
+$data = $art->selecteerArtikel(2);
 
 /// RETURN
 var_dump($data);
