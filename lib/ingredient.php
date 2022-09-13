@@ -10,6 +10,8 @@ class ingredient {
         $this->connection = $connection;
         $this->art = new artikel($connection);
     }
+
+    
     
     private function selectArtikel($artikel_id) {
         $artikel = $this->art->selecteerArtikel($artikel_id);
