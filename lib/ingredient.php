@@ -20,12 +20,13 @@ class ingredient {
     }
 
     
-    public function selecteerIngredient($recipe_id) {
+    public function selecteerIngredient($recipe_id) { 
         $sql = "select * from ingrediënt where recipe_id = $recipe_id";
         $result = mysqli_query($this->connection, $sql);
         $arr = [];
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+       
             $artikel_id = $row['article_id'];
             $artikel = $this->selectArtikel($artikel_id);
             $arr [] = [
