@@ -6,6 +6,7 @@ require_once("lib/user.php");
 require_once("lib/keukentype.php");
 require_once("lib/ingredient.php");
 require_once("lib/receptinfo.php");
+require_once("lib/recept.php");
 
 /// INIT
 $db = new database();
@@ -14,6 +15,7 @@ $usr = new user($db->getConnection());
 $kt = new keukentype($db->getConnection());
 $ing = new ingredient($db->getConnection());
 $rpi = new receptinfo($db->getConnection());
+$rct = new recept($db->getConnection());
 
 
 /// VERWERK 
@@ -27,6 +29,8 @@ $keukentype = $kt->selecteerKeukenType(1);
 $ingredient = $ing->selecteerIngredient(1);
 // receptinfo
 $receptinfo = $rpi->selecteerReceptinfo(2,"F");
+// recept
+$recept = $rct->calcCalories(1);
 
 
 /// RETURN
@@ -40,6 +44,8 @@ $receptinfo = $rpi->selecteerReceptinfo(2,"F");
 // var_dump($ingredient);
 echo "<br>";
 echo "<pre>";
-var_dump($receptinfo);
+// var_dump($receptinfo);
+echo "<br>";
+var_dump($recept);
 
 ?>
