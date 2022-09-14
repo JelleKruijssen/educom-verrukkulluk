@@ -20,13 +20,14 @@ $rpi = new receptinfo($db->getConnection());
 // Selecteer een artikel dat word weergegeven op de site
 $artikel = $art->selecteerArtikel(2);
 // selecteerUser moet nog aangepast worden zodat het juiste account word gekozen na inloggen
-$user = $usr->selecteerUser(2);
+$user = $usr->selecteerUser(4);
 // keukentype
 $keukentype = $kt->selecteerKeukenType(1);
 // ingredienten
 $ingredient = $ing->selecteerIngredient(1);
 // receptinfo
-$receptinfo = $rpi->selecteerReceptinfo(2, "F");
+$receptinfo = $rpi->selecteerReceptinfo(2,"F");
+
 
 /// RETURN
 // var_dump($artikel); 

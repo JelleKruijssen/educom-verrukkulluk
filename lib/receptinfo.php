@@ -18,6 +18,20 @@ class receptinfo {
         return ($user);
     }
 
+    private function addFavorite($recipe_id, $record_type, $user_id){
+        $sql = "INSERT INTO recipe_info (recipe_id, record_type, user_id) Values ('$recipe_id','F','$user_id')";
+        if (mysqli_query($connection, $sql)) {
+            echo "New record created successfully";
+        }
+    }
+
+    private function deleteFavorite($recipe_id, $record_type, $user_id){
+        $sql = "DELETE FROM recipe_info WHERE recipe_id = $recipe_id AND record_type = 'F' AND user_id = $user_id ";
+        if (mysqli_query($connection, $sql)) {
+            echo "New record deleted successfully";
+        }
+
+    }
 
     public function selecteerReceptinfo($recipe_id, $record_type) {
         $sql = "select * from recipe_info where recipe_id = '$recipe_id' AND record_type = '$record_type'";
@@ -48,14 +62,12 @@ class receptinfo {
                     "id" => $row['id'],
                     "recipe_id" =>$row['recipe_id'],
                     "record_type" =>$row['record_type'],
-                    "user_id" =>$row['user_id'],
-                    "date" =>$row['date'],
+                    "user_id" =>$row['user_id'],                  
                 ];
-            return $arr;
-            
-
-///////////////// Toevoegen en verwijderen van favorieten 
             }
+
+            return $arr;
+
         }elseif ($record_type == "W") {
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                 $arr[] = [
@@ -80,7 +92,6 @@ class receptinfo {
             }
         return $arr;
         }
-
     }
 }
 
