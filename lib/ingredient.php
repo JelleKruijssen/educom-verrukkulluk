@@ -27,7 +27,8 @@ class ingredient {
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
        
-            
+            $artikel_id = $row['article_id'];
+            $artikel = $this->selectArtikel($artikel_id);
             $arr [] = [
                 "id" => $row['id'],
                 "gerecht_id" => $row['recipe_id'],
