@@ -102,10 +102,23 @@ class recept {
     }
 
 
-    public function selectRemarks($recipeinfo_id) {
-        $remarks = $this->selm->selecteerReceptinfo($recipeinfo_id);
+    public function selectRemarks($recipe_id, $record_type) {
+        $remarks = $this->selm->selecteerReceptinfo($recipe_id, $record_type);
+        $sql = "select * from recipe_info where recipe_id = $recipe_id AND record_type = 'O'";
+        $result = mysqli_query($this->connection, $sql);
+        $arr= [];
 
-        return ($remarks);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            $user_id = $row['user_id'];
+            $user = $this->selectUser($user_id);
+            $arr[] = [
+                "user_id" => $row['user_id'],
+                "username" => $user['username'],
+                "photo" =>$user['photo'],
+                "text_field" =>$row['text_field'],
+            ];
+        }
+        return $arr;
     }
 }
 

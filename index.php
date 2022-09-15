@@ -34,6 +34,7 @@ $calories = $rct->calcCalories(1);
 $prijs = $rct->calcPrice(1);
 $rating = $rct->selectRating(1, "W");
 $steps = $rct->selectSteps(1, "B");
+$remarks = $rct->selectRemarks(1, "O");
 
 
 
@@ -57,5 +58,7 @@ echo "<br>";
 var_dump($rating);
 echo "<br>";
 var_dump($steps);
+echo "<br>";
+var_dump($remarks);
 
 ?>
