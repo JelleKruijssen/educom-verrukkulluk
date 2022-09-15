@@ -34,48 +34,75 @@ class recept {
         return ($ingredient);
     }
 
+        //calculate the total amount of calories
     public function calcCalories($recipe_id) {
         $calories = $this->calc->selecteerArtikel($recipe_id);
-        //calculate the total amount of calories
         $sql = "select * from ingrediënt where recipe_id = $recipe_id";
         $result = mysqli_query($this->connection, $sql);
-        $calories = [];
+        $cal = [];
+        $totalcal = 0;
 
+        while ($row = mysqli_fetch_array($result)) {
+            $artikel_id = $row['article_id'];
+            $artikel = $this->calc->selecteerArtikel($artikel_id);
+            
+            $totalcal = $totalcal + $artikel ['calories'] * $row ['amount'];
+        };
+        return $totalcal;
+
+    }
+
+        //calculate the total price
+    public function calcPrice($recipe_id) {
+        $price = $this->calp->selecteerArtikel($recipe_id);
+        $sql = "select * from ingrediënt where recipe_id = $recipe_id";
+        $result = mysqli_query($this->connection, $sql);
+        $totalpri = 0;
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
        
             $artikel_id = $row['article_id'];
-            $artikel = $this->selecteerArtikel($artikel_id);
-            $calories [] = [
-                "calories" =>$row ['calories'],
-            ];
-        
+            $artikel = $this->calp->selecteerArtikel($artikel_id);
+            $totalpri = $totalpri + $artikel ['price'] * $row ['amount'];
         }
-        return ($calories);
-        $totalcalories = array_sum($calories);
-        echo "the total amount of calories are: $calories";
-    }
-
-    private function calcPrice($artikel_id) {
-        $price = $this->calp->selecteerArtikel($artikel_id);
-        // calculate the total price 
-        return ($price);
+        return $totalpri;
 
     }
 
-    private function selectRating($recipeinfo_id) {
-        $rating = $this->selr->selectReceptinfo($recipeinfo_id);
+        // Een gemiddelde geven van de waarderingen
+    public function selectRating($recipe_id, $record_type) {
+        $rating = $this->selr->selecteerReceptinfo($recipe_id, $record_type);
+        $sql = "select * from recipe_info where recipe_id = $recipe_id AND record_type = 'W'";
+        $result = mysqli_query($this->connection, $sql);
+        $totalrating = 0;
+        $averageRating = 0;
 
-        return ($rating);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            $totalrating += $row ['numeric_field'];
+            $count = mysqli_num_rows ($result);
+            $averageRating = $totalrating / $count;
+        }
+        return round($averageRating);
+
     }
 
-    private function selectSteps($recipeinfo_id) {
-        $steps = $this->sels->selecteerReceptinfo($recipeinfo_id);
+    //stappen van het kookprocess weergeven met de nummers van de stappen
+    public function selectSteps($recipe_id, $record_type) {
+        $steps = $this->sels->selecteerReceptinfo($recipe_id, $record_type);
+        $sql = "select * from recipe_info where recipe_id = $recipe_id AND record_type = 'B'";
+        $result = mysqli_query($this->connection, $sql);
+        $arr= [];
 
-        return ($steps);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            $arr[] = [
+                "numeric_field" =>$row['numeric_field'],
+                "text_field" =>$row['text_field'],
+            ];
+        }
+        return $arr;
     }
 
 
-    private function selectRemarks($recipeinfo_id) {
+    public function selectRemarks($recipeinfo_id) {
         $remarks = $this->selm->selecteerReceptinfo($recipeinfo_id);
 
         return ($remarks);

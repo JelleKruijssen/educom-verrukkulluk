@@ -28,9 +28,13 @@ $keukentype = $kt->selecteerKeukenType(1);
 // ingredienten
 $ingredient = $ing->selecteerIngredient(1);
 // receptinfo
-$receptinfo = $rpi->selecteerReceptinfo(2,"F");
+$receptinfo = $rpi->selecteerReceptinfo(1,"W");
 // recept
-$recept = $rct->calcCalories(1);
+$calories = $rct->calcCalories(1);
+$prijs = $rct->calcPrice(1);
+$rating = $rct->selectRating(1, "W");
+$steps = $rct->selectSteps(1, "B");
+
 
 
 /// RETURN
@@ -46,6 +50,12 @@ echo "<br>";
 echo "<pre>";
 // var_dump($receptinfo);
 echo "<br>";
-var_dump($recept);
+var_dump($calories);
+echo "<br>";
+var_dump($prijs);
+echo "<br>";
+var_dump($rating);
+echo "<br>";
+var_dump($steps);
 
 ?>
