@@ -21,14 +21,18 @@ class receptinfo {
     private function addFavorite($recipe_id, $record_type, $user_id){
         $sql = "INSERT INTO recipe_info (recipe_id, record_type, user_id) Values ('$recipe_id','F','$user_id')";
         if (mysqli_query($connection, $sql)) {
-            echo "New record created successfully";
+            return TRUE;
+        } else {
+            return FALSE;
         }
     }
 
     private function deleteFavorite($recipe_id, $record_type, $user_id){
         $sql = "DELETE FROM recipe_info WHERE recipe_id = $recipe_id AND record_type = 'F' AND user_id = $user_id ";
         if (mysqli_query($connection, $sql)) {
-            echo "New record deleted successfully";
+            return TRUE;
+        } else {
+            return FALSE;
         }
 
     }
