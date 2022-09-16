@@ -7,10 +7,34 @@
 class select {
 
     private $connection;
+    private $recipe;
 
     public function __construct($connection) {
-        $connection = $this->connection;
+        $this->connection = $connection;
         $recept = new recept($connection);
+    }
+
+    private function selectRecipe($recipe_id){
+        $recipe = $this->rct->selecteerRecipe($recipe_id);
+
+        return $recipe;
+    }
+
+    public function selecteerSelect ($recipe_id) {
+        $sql = "select * from recipe where id = '$recipe_id'";
+        $result = mysqli_query($this->connection, $sql);
+        $recepten = [];
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                array_push($recepten, $row);
+            }
+        }
+        
+
+        foreach ($recepten[0] as $data) {
+
+            return $recepten;
+        }
     }
 }
 

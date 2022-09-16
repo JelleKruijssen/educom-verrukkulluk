@@ -7,6 +7,7 @@ require_once("lib/keukentype.php");
 require_once("lib/ingredient.php");
 require_once("lib/receptinfo.php");
 require_once("lib/recept.php");
+require_once("lib/selecting.php"); 
 
 /// INIT
 $db = new database();
@@ -16,6 +17,7 @@ $kt = new keukentype($db->getConnection());
 $ing = new ingredient($db->getConnection());
 $rpi = new receptinfo($db->getConnection());
 $rct = new recept($db->getConnection());
+$sel = new select($db->getConnection());
 
 
 /// VERWERK 
@@ -35,6 +37,8 @@ $prijs = $rct->calcPrice(1);
 $rating = $rct->selectRating(1, "W");
 $steps = $rct->selectSteps(1, "B");
 $remarks = $rct->selectRemarks(1, "O");
+// selecting multiple recepise
+$select = $sel->selecteerSelect(1, 2);
 
 
 
@@ -47,18 +51,20 @@ $remarks = $rct->selectRemarks(1, "O");
 // echo "<br>";
 // echo "<pre>";
 // var_dump($ingredient);
+// echo "<br>";
+// echo "<pre>";
+// // var_dump($receptinfo);
+// echo "<br>";
+// var_dump($calories);
+// echo "<br>";
+// var_dump($prijs);
+// echo "<br>";
+// var_dump($rating);
+// echo "<br>";
+// var_dump($steps);
+// echo "<br>";
+// var_dump($remarks);
 echo "<br>";
-echo "<pre>";
-// var_dump($receptinfo);
-echo "<br>";
-var_dump($calories);
-echo "<br>";
-var_dump($prijs);
-echo "<br>";
-var_dump($rating);
-echo "<br>";
-var_dump($steps);
-echo "<br>";
-var_dump($remarks);
+var_dump($select);
 
 ?>
