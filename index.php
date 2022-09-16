@@ -8,6 +8,7 @@ require_once("lib/ingredient.php");
 require_once("lib/receptinfo.php");
 require_once("lib/recept.php");
 require_once("lib/selecting.php"); 
+require_once("lib/boodschappenlijst.php");
 
 /// INIT
 $db = new database();
@@ -18,6 +19,7 @@ $ing = new ingredient($db->getConnection());
 $rpi = new receptinfo($db->getConnection());
 $rct = new recept($db->getConnection());
 $sel = new select($db->getConnection());
+$bsl = new boodschappenlijst($db->getConnection());
 
 
 /// VERWERK 
@@ -64,7 +66,7 @@ $select = $sel->selecteerSelect(1, 2);
 // var_dump($steps);
 // echo "<br>";
 // var_dump($remarks);
-echo "<br>";
+// echo "<br>";
 var_dump($select);
 
 ?>
