@@ -11,7 +11,7 @@ class select {
 
     public function __construct($connection) {
         $this->connection = $connection;
-        $recept = new recept($connection);
+        $this->rct = new recept($connection);
     }
 
     private function selectRecipe($recipe_id){
