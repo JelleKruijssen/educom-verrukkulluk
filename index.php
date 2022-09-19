@@ -22,7 +22,7 @@ $sel = new select($db->getConnection());
 $bsl = new boodschappenlijst($db->getConnection());
 
 
-/// VERWERK 
+/// VERWERK Hierbij moet nog een variabelen worden gecreeërd die de waardes vastlegd die er daadwerkelijk gebruikt gaan worden
 // Selecteer een artikel dat word weergegeven op de site
 $artikel = $art->selecteerArtikel(2);
 // selecteerUser moet nog aangepast worden zodat het juiste account word gekozen na inloggen
@@ -41,6 +41,9 @@ $steps = $rct->selectSteps(1, "B");
 $remarks = $rct->selectRemarks(1, "O");
 // selecting multiple recepise
 $select = $sel->selecteerSelect(1, 2);
+
+$toevoeg = $bsl->boodschappenToevoegen(1,2);
+
 
 
 
@@ -68,5 +71,7 @@ $select = $sel->selecteerSelect(1, 2);
 // var_dump($remarks);
 // echo "<br>";
 var_dump($select);
+echo "<br>";
+var_dump($boodlijst);
 
 ?>
