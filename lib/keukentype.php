@@ -5,6 +5,7 @@ class keukentype {
     public function __construct($connection) {
         $this->connection = $connection;
     }
+
     public function selecteerKeukenType($keukentype_id) {
         $sql = "select * from kitchentype where id = $keukentype_id";
         $result = mysqli_query($this->connection, $sql);
