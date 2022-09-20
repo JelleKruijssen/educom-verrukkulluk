@@ -5,8 +5,6 @@ class recept {
     private $connection;
     private $usr;
     private $ing;
-    private $calc;
-    private $calp;
     private $selr;
     private $sels;
     private $selm;
@@ -17,8 +15,6 @@ class recept {
         $this->art = new artikel($connection);
         $this->kt = new keukentype($connection);
         $this->ing = new ingredient($connection);
-        $this->calc = new artikel($connection);
-        $this->calp = new artikel($connection);
         $this->selr = new receptinfo($connection);
         $this->sels = new receptinfo($connection);
         $this->selm = new receptinfo($connection);
@@ -116,60 +112,6 @@ class recept {
                 $price += $pric * $amount;
         }
         return $price;
-    }
-
-
-        // Een gemiddelde geven van de waarderingen
-    public function selectRating($recipe_id, $record_type) {
-        $rating = $this->selr->selecteerReceptinfo($recipe_id, $record_type);
-        $sql = "select * from recipe_info where recipe_id = $recipe_id AND record_type = 'W'";
-        $result = mysqli_query($this->connection, $sql);
-        $totalrating = 0;
-        $averageRating = 0;
-
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-            $totalrating += $row ['numeric_field'];
-            $count = mysqli_num_rows ($result);
-            $averageRating = $totalrating / $count;
-        }
-        return round($averageRating);
-
-    }
-
-    //stappen van het kookprocess weergeven met de nummers van de stappen
-    public function selectSteps($recipe_id, $record_type) {
-        $steps = $this->sels->selecteerReceptinfo($recipe_id, $record_type);
-        $sql = "select * from recipe_info where recipe_id = $recipe_id AND record_type = 'B'";
-        $result = mysqli_query($this->connection, $sql);
-        $arr= [];
-
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-            $arr[] = [
-                "numeric_field" =>$row['numeric_field'],
-                "text_field" =>$row['text_field'],
-            ];
-        }
-        return $arr;
-    }
-
-
-    public function selectRemarks($recipe_id, $record_type) {
-        $remarks = $this->selm->selecteerReceptinfo($recipe_id, $record_type);
-        $sql = "select * from recipe_info where recipe_id = $recipe_id AND record_type = 'O'";
-        $result = mysqli_query($this->connection, $sql);
-        $arr= [];
-
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-            $user_id = $row['user_id'];
-            $user = $this->selectUser($user_id);
-            $arr[] = [
-                "user_id" => $row['user_id'],
-                "username" => $user['username'],
-                "photo" =>$user['photo'],
-                "text_field" =>$row['text_field'],
-            ];
-        }
-        return $arr;
     }
 }
 
