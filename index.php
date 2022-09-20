@@ -16,8 +16,8 @@ $db = new database();
 // $kt = new keukentype($db->getConnection());
 // $ing = new ingredient($db->getConnection());
 // $rpi = new receptinfo($db->getConnection());
-$rct = new recept($db->getConnection());
-// $bsl = new boodschappenlijst($db->getConnection());
+// $rct = new recept($db->getConnection());
+$bsl = new boodschappenlijst($db->getConnection());
 
 
 /// VERWERK Hierbij moet nog een variabelen worden gecreeërd die de waardes vastlegd die er daadwerkelijk gebruikt gaan worden
@@ -32,18 +32,18 @@ $rct = new recept($db->getConnection());
 // // receptinfo
 // $receptinfo = $rpi->selecteerReceptinfo(1,"W");
 // recept
-$recept = $rct->selecteerRecipe(1, 2);
+// $recept = $rct->selecteerRecipe(1, 2);
 // $recept = $rct->selecteerRecipe(2);
 // selecting multiple recepise
 
-// $boodlijst = $bsl->selecteerBoodschappenlijst(1,2);
+$boodlijst = $bsl->selecteerBoodschappenlijst(1,2);
 
 
 
 
 // /// RETURN
 echo "<pre>";
-var_dump($recept);
+// var_dump($recept);
 // var_dump($artikel); 
 // echo "<br>";
 // var_dump($user);
@@ -56,6 +56,6 @@ var_dump($recept);
 // echo "<pre>";
 // // var_dump($receptinfo);
 // echo "<br>";
-// var_dump($boodlijst);
+var_dump($boodlijst);
 
 ?>
