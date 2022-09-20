@@ -29,18 +29,19 @@ class ingredient {
        
             $artikel_id = $row['article_id'];
             $artikel = $this->selectArtikel($artikel_id);
+            
             $arr [] = [
                 "id" => $row['id'],
-                "gerecht_id" => $row['recipe_id'],
-                "artikel_id" => $row['article_id'],
-                "Aantal" => $row['amount'],
-                "Naam" => $artikel['NaamArtikel'],
-                "Beschrijving" => $artikel['Beschrijving'],
-                "Foto" => $artikel['photo'],
-                "Prijs" => $artikel['price'],
-                "Gewicht" => $artikel['packaging'],
-                "Eenheid" => $artikel['units'],
-                "Calorieën" => $artikel['calories'],
+                "recipe_id" => $row['recipe_id'],
+                "article_id" => $row['article_id'],
+                "amount" => $row['amount'],
+                "name" => $artikel['naam'],
+                "description" => $artikel['beschrijving'],
+                "photo" => $artikel['photo'],
+                "price" => $artikel['price'],
+                "weight" => $artikel['packaging'],
+                "unit" => $artikel['units'],
+                "calories" => $artikel['calories'],
             ];
         } 
         return $arr;
