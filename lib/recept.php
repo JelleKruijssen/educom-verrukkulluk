@@ -49,7 +49,7 @@ class recept {
     }
 
     // gerechten selecteren
-    public function selecteerRecipe($recipe_id) {
+    public function selectRecipe($recipe_id) {
         $sql = "SELECT * FROM recipe WHERE id = $recipe_id";
         $result = mysqli_query($this->connection, $sql);
 
