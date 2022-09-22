@@ -3,14 +3,18 @@
 class boodschappenlijst {
 
     private $connection;
+    private $art;
     private $usr;
     private $rct;
+    private $ing;
 
 
     public function __construct($connection) {
         $this->connection = $connection;
-        $this->usr = new User($connection);
-        $this->rct = new Recept($connection);
+        $this->art = new artikel($connection);
+        $this->usr = new user($connection);
+        $this->rct = new recept($connection);
+        $this->ing = new ingredient($connection);
     }
 
     // user
@@ -26,45 +30,74 @@ class boodschappenlijst {
         return $recipe;
     }
 
+    private function selectIngredient($ingredient_id){
+        $ingredient = $this->ing->selecteerIngredient($ingredient_id);
 
-    public function selecteerBoodschappenlijst($recipe_id, $user_id) {
-        $sql = "select * from boodschappenlijst where recipe_id = $recipe_id and user_id = $user_id";
+        return $ingredient;
+    }
+
+
+    public function selectBoodschappenlijst($recipe_id, $user_id) {
+        $sql = "SELECT * FROM boodschappen WHERE recipe_id = $recipe_id";
         $result = mysqli_query($this->connection, $sql);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-        $boodschapToevoegen = $this->boodschappenToevoegen(); 
-        $artikelOpLijst = $this->artikelOpLijst();
+        
+
+
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+
+            $recipe = $this->selectRecipe($row['recipe_id']);
+            $user = $this->selectUser($row['user_id']);
+            $toevoegen = $this->boodschappenToevoegen($recipe_id, $user_id);
+
+
+        }
+        return $row;
 
     }
 
 
 // functie om boodschappen toe te voegen aan de lijst
     public function boodschappenToevoegen($recipe_id, $user_id) {
-       
-        // zolang er ingredienten zijn en deze ingredienten op de lijst staan
-        while ($ingredienten) {
-            if($this->artikelOpLijst()) {
-                // ja bijwerken
-                "UPDATE boodschappenlijst SET ";
-                // de waaardes nog toevoegen
+
+        $schappen = $this->selectBoodschappenlijst($recipe_id, $user_id);
+        $recipe = $this->selectRecipe($row['recipe_id']);
+
+
+        // ingredienten ophalen
+        $ingredienten = $this->selectIngredient($recipe_id);
+        $lijst = $this->artikelOpLijst($artikel_id, $user_id);
+
+        // zolang er ingredienten zijn moet dit doorgaan
+        while (($ingredienten) > 0) {
+            if($artikelOpLijst) {
+                // artikel bijwerken
+                return "UPDATE boodschappen SET hoeveelheid = ";
+            }else {
+                // artikel toevoegen
+                return "INSERT INTO boodschappen (id, user_id, ";
             }
-            // nee toevoegen
-            "INSERT INTO boodschappenlijst";
-            // waardes toevoegen
 
         }
     }
+
+
 // functie om te controleren of de artikelen die ingevoerd worden niet al op de lijst staan
     public function artikelOpLijst($artikel_id, $user_id) {
-        // boodschappen ophalen die toegevoegd zijn aan de boodschappenlijst
-        $boodschappen = ophalenBoodschappen($user_id);
-        // als er boodschappen zijn
-        while (($boodschappen) ) {
-            if($boodschap->$artikel_id == $artikel_id) {
-                // ja return
+
+        // ophalen boodschappen
+        $boodschappen = [];
+        $schappen = $this->selectBoodschappenlijst($user_id);
+        // ingredienten ophalen
+        // artikel_id ophalen
+        $artikel_id = $this->selectIngredient($recipe_id);
+        $artikel = $this->selectArtikel($artikel_id);
+
+
+        while (($booschappen) > 0) {
+            if ($boodschap->$artikel_id == $artikel_id) {
                 return $boodschap;
             }
-            // nee false
         }
         return false;
     }

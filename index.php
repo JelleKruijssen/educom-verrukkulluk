@@ -32,11 +32,11 @@ $bsl = new boodschappenlijst($db->getConnection());
 // // receptinfo
 // $receptinfo = $rpi->selecteerReceptinfo(1,"W");
 // recept
-// $recept = $rct->selecteerRecipe(1, 2);
+// $recept = $rct->selectRecipe(1, 2);
 // $recept = $rct->selecteerRecipe(2);
 // selecting multiple recepise
 
-$boodlijst = $bsl->selecteerBoodschappenlijst(1,2);
+$lijst = $bsl->selectBoodschappenlijst(1,2);
 
 
 
@@ -56,6 +56,6 @@ echo "<pre>";
 // echo "<pre>";
 // // var_dump($receptinfo);
 // echo "<br>";
-var_dump($boodlijst);
+var_dump($lijst);
 
 ?>
