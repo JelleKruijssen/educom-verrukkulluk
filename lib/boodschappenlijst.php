@@ -3,7 +3,6 @@
 class boodschappenlijst {
 
     private $connection;
-    private $art;
     private $usr;
     private $rct;
     private $ing;
@@ -11,7 +10,6 @@ class boodschappenlijst {
 
     public function __construct($connection) {
         $this->connection = $connection;
-        $this->art = new artikel($connection);
         $this->usr = new user($connection);
         $this->rct = new recept($connection);
         $this->ing = new ingredient($connection);
@@ -38,21 +36,31 @@ class boodschappenlijst {
 
 
     public function selectBoodschappenlijst($recipe_id, $user_id) {
-        $sql = "SELECT * FROM boodschappen WHERE recipe_id = $recipe_id";
+        $sql = "SELECT * FROM boodschappen WHERE recipe_id = $recipe_id and user_id = $user_id";
         $result = mysqli_query($this->connection, $sql);
 
-        
-
+        $boodschappen = [];
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            if(mysqli_num_rows($result) > 0) {
 
-            $recipe = $this->selectRecipe($row['recipe_id']);
-            $user = $this->selectUser($row['user_id']);
-            $toevoegen = $this->boodschappenToevoegen($recipe_id, $user_id);
+                $recipe = $this->selectRecipe($row['recipe_id']);
+                $user = $this->selectUser($row['user_id']);
+                $updaten = $this->boodschappenToevoegen($recipe_id, $user_id);
+                $toevoegen = $this->boodschappenToevoegen($recipe_id, $user_id);
 
+                $boodschappen [] = [
+
+                    "id" =>$row['id'],
+                    "user_id" =>$row['user_id'],
+                    "recipe_id" =>$row['recipe_id'],
+                    "hoeveelheid" =>$row['hoeveelheid'],
+
+                ];
+            }
 
         }
-        return $row;
+        return $boodschappen;
 
     }
 
@@ -61,21 +69,23 @@ class boodschappenlijst {
     public function boodschappenToevoegen($recipe_id, $user_id) {
 
         $schappen = $this->selectBoodschappenlijst($recipe_id, $user_id);
-        $recipe = $this->selectRecipe($row['recipe_id']);
-
-
         // ingredienten ophalen
+        $recipe_id = $row['recipe_id'];
         $ingredienten = $this->selectIngredient($recipe_id);
         $lijst = $this->artikelOpLijst($artikel_id, $user_id);
 
         // zolang er ingredienten zijn moet dit doorgaan
-        while (($ingredienten) > 0) {
-            if($artikelOpLijst) {
+        foreach ($ingredienten as $ingredient) {
+            if($lijst($ingredient->$artikel_id, $user_id)) {
                 // artikel bijwerken
-                return "UPDATE boodschappen SET hoeveelheid = ";
+                $update = "UPDATE boodschappen SET hoeveelheid = ";
+                
+                return $update;
             }else {
                 // artikel toevoegen
-                return "INSERT INTO boodschappen (id, user_id, ";
+                $toevoegen =  "INSERT INTO boodschappen (id, user_id, ";
+
+                return $toevoegen;
             }
 
         }
@@ -86,15 +96,15 @@ class boodschappenlijst {
     public function artikelOpLijst($artikel_id, $user_id) {
 
         // ophalen boodschappen
-        $boodschappen = [];
         $schappen = $this->selectBoodschappenlijst($user_id);
         // ingredienten ophalen
         // artikel_id ophalen
-        $artikel_id = $this->selectIngredient($recipe_id);
+        $ingredient = $this->selectIngredient($recipe_id);
+        $artikel_id = $ingredient['article_id'];
         $artikel = $this->selectArtikel($artikel_id);
 
 
-        while (($booschappen) > 0) {
+        while (($schappen) > 0) {
             if ($boodschap->$artikel_id == $artikel_id) {
                 return $boodschap;
             }
