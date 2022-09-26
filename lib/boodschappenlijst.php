@@ -1,8 +1,11 @@
 <?php
 
+session_start();
+
 class boodschappenlijst {
 
     private $connection;
+    private $art;
     private $usr;
     private $rct;
     private $ing;
@@ -10,6 +13,7 @@ class boodschappenlijst {
 
     public function __construct($connection) {
         $this->connection = $connection;
+        $this->art = new artikel($connection);
         $this->usr = new user($connection);
         $this->rct = new recept($connection);
         $this->ing = new ingredient($connection);
@@ -34,38 +38,54 @@ class boodschappenlijst {
         return $ingredient;
     }
 
+    private function selectArtikel($artikel_id) {
+        $artikel = $this->art->selecteerArtikel($artikel_id);
 
-    public function selectBoodschappenlijst($recipe_id, $user_id) {
-        $sql = "SELECT * FROM boodschappen WHERE recipe_id = $recipe_id and user_id = $user_id";
-        $result = mysqli_query($this->connection, $sql);
-
-        $boodschappen = [];
-
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            if(mysqli_num_rows($result) > 0) {
-
-                $recipe = $this->selectRecipe($row['recipe_id']);
-                $user = $this->selectUser($row['user_id']);
-                $updaten = $this->boodschappenToevoegen($recipe_id, $user_id);
-                $toevoegen = $this->boodschappenToevoegen($recipe_id, $user_id);
-
-                $boodschappen [] = [
-
-                    "id" =>$row['id'],
-                    "user_id" =>$row['user_id'],
-                    "recipe_id" =>$row['recipe_id'],
-                    "hoeveelheid" =>$row['hoeveelheid'],
-
-                ];
-            }
-
-        }
-        return $boodschappen;
-
+        return $artikel;
     }
 
 
-// functie om boodschappen toe te voegen aan de lijst
+    public function selectBoodschappenlijst($recipe_id, $user_id) {
+
+        $sql = "SELECT * FROM shoppingcart WHERE recipe_id = $recipe_id AND user_id = $user_id";
+        $result = mysqli_query($this->connection, $sql);
+
+        $shoppingcart = [];
+        
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            if (mysqli_num_rows($result) > 0) {
+
+                $recipe = $this->selectRecipe($row ['recipe_id']);  
+                $user = $this->selectUser($row ['user_id']);
+
+                // $toevoegen = $this->boodschappenToevoegen($recipe_id, $user_id);
+
+                $ingredient = $this->selectIngredient($recipe_id);
+
+                // artikel_id ophalen via $ingredient?!
+
+                // $artikel = $this->selectArtikel($artikel_id);
+
+                // $opLijst = $this->artikelOpLijst($artikel_id, $user_id);
+
+                $shoppingcart [] = [
+                    "id" => $row['id'],
+                    "recipe" => $recipe,
+                    "user" => $user,
+                    "artikel" => $artikel_id,
+                ];
+            }
+        }
+
+        foreach ($shoppingcart as $boodschap) {
+            array_push($shoppingcart, $boodschap);
+        }
+        
+        return array_unique($shoppingcart, SORT_REGULAR);
+
+    }
+
+    // functie om boodschappen toe te voegen aan de lijst
     public function boodschappenToevoegen($recipe_id, $user_id) {
 
         $schappen = $this->selectBoodschappenlijst($recipe_id, $user_id);
@@ -75,16 +95,17 @@ class boodschappenlijst {
         $lijst = $this->artikelOpLijst($artikel_id, $user_id);
 
         // zolang er ingredienten zijn moet dit doorgaan
-        foreach ($ingredienten as $ingredient) {
+        while (mysqli_num_rows($ingredienten) > 0) {
             if($lijst($ingredient->$artikel_id, $user_id)) {
+                // berekening voor de nieuwe hoeveelheid zowel als het toegevoegd als weggehaald word!!!
+
                 // artikel bijwerken
-                $update = "UPDATE boodschappen SET hoeveelheid = ";
+                // $update = "UPDATE boodschappen SET hoeveelheid = ";
                 
                 return $update;
             }else {
                 // artikel toevoegen
-                $toevoegen =  "INSERT INTO boodschappen (id, user_id, ";
-
+                // $toevoegen =  "INSERT INTO boodschappen (id, user_id, recipe_id, hoeveelheid) Values ()";
                 return $toevoegen;
             }
 
@@ -92,24 +113,21 @@ class boodschappenlijst {
     }
 
 
-// functie om te controleren of de artikelen die ingevoerd worden niet al op de lijst staan
+    // functie om te controleren of de artikelen die ingevoerd worden niet al op de lijst staan
     public function artikelOpLijst($artikel_id, $user_id) {
 
         // ophalen boodschappen
-        $schappen = $this->selectBoodschappenlijst($user_id);
-        // ingredienten ophalen
-        // artikel_id ophalen
-        $ingredient = $this->selectIngredient($recipe_id);
-        $artikel_id = $ingredient['article_id'];
-        $artikel = $this->selectArtikel($artikel_id);
+        $boodschappen = $this->selectBoodschappenlijst($user_id);
 
-
-        while (($schappen) > 0) {
-            if ($boodschap->$artikel_id == $artikel_id) {
+        foreach ($boodschappen as $boodschap) {
+            // ingredienten ophalen
+            if ($boodschap ['ingredient'][3] == $artikel_id) {
+                // artikel_id hier ook ophalen of gebruik maken van de eerder opgeroepen artikel_id?!
                 return $boodschap;
+            } else {
+                return false;
             }
         }
-        return false;
     }
 }
 
