@@ -35,10 +35,9 @@ $bsl = new boodschappenlijst($db->getConnection());
 // $recept = $rct->selectRecipe(1, 2);
 // $recept = $rct->selecteerRecipe(2);
 // selecting multiple recepise
-
-$lijst = $bsl->selectBoodschappenlijst(2,3);
-
-
+// $lijst = $bsl->selectBoodschappenlijst(2,3);
+$arti = $bsl->artikelOpLijst(2,3);
+$bst = $bsl->boodschappenToevoegen(1,3);
 
 
 // /// RETURN
@@ -49,6 +48,9 @@ echo "<pre>";
 // var_dump($keukentype);
 // var_dump($ingredient);
 // // var_dump($receptinfo);
-var_dump($lijst);
+// var_dump($lijst);
+var_dump($arti);
+var_dump($bst);
+
 
 ?>

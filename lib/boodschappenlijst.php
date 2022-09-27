@@ -44,91 +44,67 @@ class boodschappenlijst {
         return $artikel;
     }
 
+    public function artikelOpLijst($artikel_id, $user_id) {
 
-    public function selectBoodschappenlijst($recipe_id, $user_id) {
-
-        $sql = "SELECT * FROM shoppingcart WHERE recipe_id = $recipe_id AND user_id = $user_id";
+        // ophalen boodschappen
+        $sql = "select * from shoppingcart where user_id = $user_id";
         $result = mysqli_query($this->connection, $sql);
-
-        $shoppingcart = [];
         
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             if (mysqli_num_rows($result) > 0) {
 
-                $recipe = $this->selectRecipe($row ['recipe_id']);  
-                $user = $this->selectUser($row ['user_id']);
-
-                // $toevoegen = $this->boodschappenToevoegen($recipe_id, $user_id);
-
-                $ingredient = $this->selectIngredient($recipe_id);
-
-                // artikel_id ophalen via $ingredient?!
-
-                // $artikel = $this->selectArtikel($artikel_id);
-
-                // $opLijst = $this->artikelOpLijst($artikel_id, $user_id);
-
-                $shoppingcart [] = [
-                    "id" => $row['id'],
-                    "recipe" => $recipe,
-                    "user" => $user,
-                    "artikel" => $artikel_id,
-                ];
+                if($row['article_id'] == $artikel_id) {
+                    return $row;
+                }else {
+                    return false;
+                }
             }
-        }
-
-        foreach ($shoppingcart as $boodschap) {
-            array_push($shoppingcart, $boodschap);
-        }
-        
-        return array_unique($shoppingcart, SORT_REGULAR);
-
+        } 
     }
 
     // functie om boodschappen toe te voegen aan de lijst
     public function boodschappenToevoegen($recipe_id, $user_id) {
 
-        $schappen = $this->selectBoodschappenlijst($recipe_id, $user_id);
         // ingredienten ophalen
-        $recipe_id = $row['recipe_id'];
         $ingredienten = $this->selectIngredient($recipe_id);
-        $lijst = $this->artikelOpLijst($artikel_id, $user_id);
 
         // zolang er ingredienten zijn moet dit doorgaan
-        while (mysqli_num_rows($ingredienten) > 0) {
-            if($lijst($ingredient->$artikel_id, $user_id)) {
-                // berekening voor de nieuwe hoeveelheid zowel als het toegevoegd als weggehaald word!!!
+        foreach ($ingredienten as $ingredient) {
+            if ($this->artikelOpLijst($ingredient['article_id'], $user_id) !== false) {
 
-                // artikel bijwerken
-                // $update = "UPDATE boodschappen SET hoeveelheid = ";
+                // oplijst moet ing-id of art-id en user bevatten
+                $artikel_id = $ingredient['article_id'];
                 
-                return $update;
+                // berekening
+                $amount = $ingredient['amount'];
+                $current = $this->artikelOpLijst(['amount']);
+                $total = $amount + $current;
+                
+                // ceil voor afronding naar boven
+                
+                // artikel bijwerken
+                $sql = "UPDATE shoppingcart SET amount = $total where article_id = $artikel_id";
+
+                echo "update";
+
+                return $sql;
+                
             }else {
                 // artikel toevoegen
-                // $toevoegen =  "INSERT INTO boodschappen (id, user_id, recipe_id, hoeveelheid) Values ()";
-                return $toevoegen;
+                $artikel_id = $ingredient['article_id'];	
+                $amount = $ingredient['amount'];
+                
+                $sql =  "INSERT INTO shoppingcart (user_id, article_id, amount) Values ($user_id, $artikel_id, $amount)";
+                echo "new";
+
+                return $sql;
             }
 
         }
     }
-
 
     // functie om te controleren of de artikelen die ingevoerd worden niet al op de lijst staan
-    public function artikelOpLijst($artikel_id, $user_id) {
-
-        // ophalen boodschappen
-        $boodschappen = $this->selectBoodschappenlijst($user_id);
-
-        foreach ($boodschappen as $boodschap) {
-            // ingredienten ophalen
-            if ($boodschap ['ingredient'][3] == $artikel_id) {
-                // artikel_id hier ook ophalen of gebruik maken van de eerder opgeroepen artikel_id?!
-                return $boodschap;
-            } else {
-                return false;
-            }
-        }
-    }
+    
 }
 
 ?>
