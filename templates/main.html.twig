@@ -1,7 +1,7 @@
 <html lang="nl">
 <head>
 
-    <title>het is verrukkuluk! :: {{ TITEL }} </title>
+    <title>het is verrukkulluk! :: {{ TITEL }} </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" />
@@ -18,32 +18,65 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" >
+        
         {% block header %}
             
         {% endblock %}   
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-3">
-            <h2>Agenda</h2>
+    <div class="row" height= "50%">
+        <div class="col-md-3" style="background-color: #95b82d">
+            <img src="assets/img/verrukkulluk-agenda.png" width= 160px height= 80px allign="middle"><br>
             <i class="fa fa-calendar"></i> FontAwesome <a href="https://fontawesome.com/icons?d=gallery&m=free">Documentation</a><br>
             <i class="fa fa-file-pdf"></i><a href="https://www.layoutit.com/build">Layout-it</a>
-
-
+            <div class="row">
+                <div class="col-2">
+                    <i class="fa fa-calendar" style= "color: #fff" width= 30px heigth=30px></i><a href="https://fontawesome.com/icons?d=gallery&m=free"></a>
+                </div>
+                <div class="col-10">
+                    <h4>Vegetarisch koken</h4>
+                    <p>Workshop vegetarisch koken word gegeven door ...</p>
+                </div>
+            </div>
+            <div class= "row">
+                <div class="col-2">
+                    <i class="fa-soli fa-calender-days"></i><a href="https://fontawesome.com/icons?d=gallery&m=free"></a>
+                </div>
+                <div class="col-10">
+                    <h4>Gezonden gerechten</h4>
+                    <p>Workshop leren hoe gezond te koken </p>
+                </div>
+            </div>
         </div>
         <div class="col-md-9">
             <h2>Content</h2>
-            {%  block content %}
-            {%  endblock %}
+                {%  block content %}'
+
+                {%  endblock %}
         </div>
     </div>
 
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Footer</h1>
+    <div class="row" >
+        <div class="col-md-12" style="background-color: #fca01f" >
+            <div class="row">
+                <div class = "col-1">
+                    <img src="assets/img/verrukkulluk-pay-off.png" width= 100px height= 100px>
+                </div>
+                <div class="col-11" >
+                    <font color = "#fff">
+                        <h1>Contact</h1>
+                        <ul style = "list-style: none">
+                            <li>Verrukkulluk.nl</li>
+                            <li>Poststraat 2b</li>
+                            <li>Sittard</li>
+                            <li>info@verrukkulluk.nl</li>
+                        </ul>
+                    </font>
+                </div>
+            </div>
         </div>
     </div>
 

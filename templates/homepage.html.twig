@@ -2,13 +2,15 @@
 {% extends "main.html.twig" %}
 
 {% block header %}
-<img src="assets/img/logo-v2.png"/>
+<img src="assets/img/logo-v2.png" width= 200px height=100px/>
+
+{# achtergrond hier neer zetten?! #}
 {% endblock %}
 
 
 {# nu de block content op in de main pagina vullen #}
 {% block content %}
-    {# Dit is commentaar #}
+{# Dit is commentaar #}
 
     {# Print #}
     <h1>Heading #1</h1>
@@ -44,5 +46,6 @@
        <pre>
         {{ dump(data) }}
        </pre>
+
 
 {% endblock %}
